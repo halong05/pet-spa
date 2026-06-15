@@ -1,0 +1,8 @@
+{
+  "appId": "com.petspa.app",
+  "appName": "PetSpa",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}

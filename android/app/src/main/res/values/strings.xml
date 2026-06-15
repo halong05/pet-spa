@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PetSpa</string>
+    <string name="title_activity_main">PetSpa</string>
+    <string name="package_name">com.nhom6.petspa</string>
+    <string name="custom_url_scheme">com.nhom6.petspa</string>
+</resources>
