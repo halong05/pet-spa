@@ -112,7 +112,7 @@ export default function Home({ navigate }) {
             onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.zIndex = 1; e.currentTarget.style.boxShadow = 'none'; }}
           >
             <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(239, 68, 68, 0.7)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255, 255, 255, 0.3)', color: 'white', padding: '0.25rem 0.75rem', borderRadius: '9999px', fontSize: '0.8rem', fontWeight: 'bold', zIndex: 2 }}>Trước</span>
-            <img src="/img/poodle_before.png" alt="Chó chưa cắt lông" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '1rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }} />
+            <img src="./img/poodle_before.png" alt="Chó chưa cắt lông" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '1rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }} />
           </div>
           <div 
             style={{ position: 'relative', flex: 1, maxWidth: '200px', transform: 'translateY(1.5rem)', transition: 'all 0.3s ease', cursor: 'pointer', zIndex: 1 }}
@@ -120,7 +120,7 @@ export default function Home({ navigate }) {
             onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(1.5rem) scale(1)'; e.currentTarget.style.zIndex = 1; e.currentTarget.style.boxShadow = 'none'; }}
           >
             <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(16, 185, 129, 0.7)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255, 255, 255, 0.3)', color: 'white', padding: '0.25rem 0.75rem', borderRadius: '9999px', fontSize: '0.8rem', fontWeight: 'bold', zIndex: 2 }}>Sau</span>
-            <img src="/img/poodle_after.png" alt="Chó đã cắt tỉa mượt mà" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '1rem', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }} />
+            <img src="./img/poodle_after.png" alt="Chó đã cắt tỉa mượt mà" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '1rem', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }} />
           </div>
         </div>
       </section>
