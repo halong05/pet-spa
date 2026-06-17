@@ -314,8 +314,6 @@ export default function PetForm({ currentUser, onPetAdded, onCancel, petToEdit =
         </div>
       )}
 
-      )}
-
     </>
   );
 }
