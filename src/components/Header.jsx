@@ -33,42 +33,47 @@ export default function Header({ currentView, navigate, currentUser, onLogout })
 
   return (
     <header className="header" style={{ position: 'relative' }}>
-      <div className="header-logo" onClick={() => navigate('home')} style={{ cursor: 'pointer' }}>
-        <Scissors size={24} color="var(--primary)" />
-        <span>PetSpa Pro</span>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+        <div className="header-logo" onClick={() => navigate('home')} style={{ cursor: 'pointer' }}>
+          <Scissors size={24} color="var(--primary)" />
+          <span>PetSpa Pro</span>
+        </div>
+        
+        <nav style={{ display: 'flex', gap: '1.5rem', fontWeight: 500 }} className="desktop-only-nav">
+          <a 
+            className={currentView === 'home' ? 'active' : ''} 
+            onClick={() => navigate('home')}
+            style={{ cursor: 'pointer', color: currentView === 'home' ? 'var(--primary)' : 'var(--text-muted)' }}
+          >
+            Trang chủ
+          </a>
+          
+          {currentUser?.role !== 'ADMIN' && (
+            <a 
+              className={currentView === 'booking' ? 'active' : ''} 
+              onClick={() => navigate('booking')}
+              style={{ cursor: 'pointer', color: currentView === 'booking' ? 'var(--primary)' : 'var(--text-muted)' }}
+            >
+              Đặt lịch
+            </a>
+          )}
+
+          {currentUser?.role === 'ADMIN' && (
+            <a 
+              className={currentView === 'admin' ? 'active' : ''} 
+              onClick={() => navigate('admin')}
+              style={{ cursor: 'pointer', color: '#ef4444', fontWeight: 'bold' }}
+            >
+              Cổng Quản Trị
+            </a>
+          )}
+        </nav>
       </div>
       
       <nav className="header-nav">
-        <a 
-          className={currentView === 'home' ? 'active' : ''} 
-          onClick={() => navigate('home')}
-          style={{ cursor: 'pointer' }}
-        >
-          Trang chủ
-        </a>
-        
-        {currentUser?.role !== 'ADMIN' && (
-          <a 
-            className={currentView === 'booking' ? 'active' : ''} 
-            onClick={() => navigate('booking')}
-            style={{ cursor: 'pointer' }}
-          >
-            Đặt lịch
-          </a>
-        )}
-
-        {currentUser?.role === 'ADMIN' && (
-          <a 
-            className={currentView === 'admin' ? 'active' : ''} 
-            onClick={() => navigate('admin')}
-            style={{ cursor: 'pointer', color: '#ef4444', fontWeight: 'bold' }}
-          >
-            Cổng Quản Trị
-          </a>
-        )}
-        
         {currentUser ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginLeft: '1rem', paddingLeft: '1rem', borderLeft: '1px solid var(--border-color)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             
             {/* Notification Bell */}
             {currentUser.role !== 'ADMIN' && (
@@ -109,20 +114,21 @@ export default function Header({ currentView, navigate, currentUser, onLogout })
             )}
 
             <div 
-              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', color: currentUser.role === 'ADMIN' ? '#ef4444' : 'var(--primary-dark)', fontWeight: 600 }}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', color: currentUser.role === 'ADMIN' ? '#ef4444' : 'var(--primary-dark)', fontWeight: 600, borderLeft: '1px solid var(--border-color)', paddingLeft: '1rem' }}
               onClick={() => currentUser.role === 'ADMIN' ? navigate('admin') : navigate('dashboard')}
             >
               {currentUser.role === 'ADMIN' ? <ShieldCheck size={20} /> : <User size={20} />}
-              <span>{currentUser.name}</span>
+              <span style={{ textTransform: 'capitalize' }}>{currentUser.name}</span>
             </div>
-            <button className="btn-outline" style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }} onClick={onLogout}>Đăng xuất</button>
+            <button className="btn-ghost" onClick={onLogout}>Đăng xuất</button>
           </div>
         ) : (
-          <button className="btn-primary" style={{ marginLeft: '1rem' }} onClick={() => navigate('login')}>
+          <button className="btn-primary" onClick={() => navigate('login')}>
             Đăng nhập
           </button>
         )}
       </nav>
+      </div>
     </header>
   );
 }

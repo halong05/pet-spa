@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap');
 
 :root {
   --primary: #10b981; /* Mint Green */
@@ -23,6 +23,11 @@ body {
   background-color: var(--bg-main);
   color: var(--text-main);
   line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
 }
 
 a {
@@ -66,6 +71,21 @@ button {
 
 .btn-outline:hover {
   background-color: var(--primary-light);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--text-muted);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-ghost:hover {
+  background-color: #fee2e2;
+  color: #ef4444;
 }
 
 .card {

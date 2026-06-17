@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 export default function PetForm({ currentUser, onPetAdded, onCancel, petToEdit = null }) {
   const [step, setStep] = useState(1);
@@ -25,6 +25,74 @@ export default function PetForm({ currentUser, onPetAdded, onCancel, petToEdit =
       setStep(3); 
     }
   }, [petToEdit]);
+
+  // Camera State & Handlers
+  const [showCamera, setShowCamera] = useState(false);
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const [stream, setStream] = useState(null);
+
+  const openCamera = async () => {
+    setShowCamera(true);
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      setStream(mediaStream);
+    } catch (err) {
+      alert("Không thể truy cập camera. Vui lòng cấp quyền hoặc kiểm tra lại thiết bị.");
+      setShowCamera(false);
+    }
+  };
+
+  const closeCamera = () => {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      setStream(null);
+    }
+    setShowCamera(false);
+  };
+
+  const capturePhoto = () => {
+    if (videoRef.current && canvasRef.current) {
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+      setImage(dataUrl);
+      closeCamera();
+    }
+  };
+
+  useEffect(() => {
+    if (showCamera && stream && videoRef.current && !videoRef.current.srcObject) {
+       videoRef.current.srcObject = stream;
+    }
+  }, [showCamera, stream]);
+
+  useEffect(() => {
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [stream]);
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        alert("Kích thước ảnh quá lớn. Vui lòng chọn ảnh dưới 2MB.");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -89,7 +157,8 @@ export default function PetForm({ currentUser, onPetAdded, onCancel, petToEdit =
   };
 
   return (
-    <div className="card fade-in" style={{ maxWidth: '600px', margin: '0 auto', width: '100%' }}>
+    <>
+      <div className="card fade-in" style={{ maxWidth: '600px', margin: '0 auto', width: '100%' }}>
       
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
         <h3 style={{ margin: 0 }}>{petToEdit ? 'Chỉnh Sửa Hồ Sơ Thú Cưng' : 'Tạo Profile Thú Cưng'}</h3>
@@ -187,9 +256,30 @@ export default function PetForm({ currentUser, onPetAdded, onCancel, petToEdit =
           </div>
 
           <div style={{ marginBottom: '1rem' }}>
-            <label style={{ fontWeight: 500, display: 'block', marginBottom: '0.5rem' }}>Ảnh thú cưng (Link URL)</label>
-            <input type="url" className="input-field" placeholder="https://..." value={image} onChange={e => setImage(e.target.value)} />
-            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: '0.25rem 0 0 0' }}>Có thể bỏ trống để dùng ảnh mặc định.</p>
+            <label style={{ fontWeight: 500, display: 'block', marginBottom: '0.5rem' }}>Ảnh thú cưng</label>
+            
+            <div style={{ display: 'flex', gap: '1rem', marginBottom: '0.5rem' }}>
+              <button type="button" className="btn-outline" style={{ flex: 1, textAlign: 'center', cursor: 'pointer', padding: '0.5rem' }} onClick={openCamera}>
+                📷 Chụp ảnh
+              </button>
+              <label className="btn-outline" style={{ flex: 1, textAlign: 'center', cursor: 'pointer', padding: '0.5rem' }}>
+                🖼️ Chọn từ máy
+                <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageUpload} />
+              </label>
+            </div>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Hoặc Link URL:</span>
+              <input type="url" className="input-field" style={{ flex: 1 }} placeholder="https://..." value={image.startsWith('data:image') ? '' : image} onChange={e => setImage(e.target.value)} />
+            </div>
+            
+            {image && (
+              <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+                <img src={image} alt="Preview" style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '50%', border: '2px solid var(--primary-light)' }} />
+              </div>
+            )}
+            
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: '0.5rem 0 0 0' }}>Có thể bỏ trống để dùng ảnh mặc định.</p>
           </div>
 
           <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
@@ -206,5 +296,26 @@ export default function PetForm({ currentUser, onPetAdded, onCancel, petToEdit =
       )}
 
     </div>
+      
+      {/* Camera Modal */}
+      {showCamera && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}>
+          <div style={{ position: 'relative', width: '100%', maxWidth: '500px', backgroundColor: '#000', borderRadius: '1rem', overflow: 'hidden', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}>
+            <video ref={videoRef} autoPlay playsInline style={{ width: '100%', maxHeight: '70vh', display: 'block', objectFit: 'cover' }}></video>
+            <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
+            
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2rem', padding: '1.5rem', backgroundColor: '#111' }}>
+              <button type="button" className="btn-outline" style={{ color: 'white', borderColor: 'white', padding: '0.5rem 1.5rem' }} onClick={closeCamera}>Hủy</button>
+              <button type="button" style={{ backgroundColor: '#ef4444', border: '3px solid white', borderRadius: '50%', width: '70px', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'transform 0.2s' }} onMouseDown={e => e.currentTarget.style.transform = 'scale(0.9)'} onMouseUp={e => e.currentTarget.style.transform = 'scale(1)'} onClick={capturePhoto}>
+                <div style={{ backgroundColor: 'white', width: '50px', height: '50px', borderRadius: '50%' }}></div>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      )}
+
+    </>
   );
 }

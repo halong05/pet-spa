@@ -9,7 +9,7 @@ export default function Home({ navigate }) {
     { icon: <Scissors size={32} />, title: "Cắt Tỉa Lông Nghệ Thuật", price: "250,000đ", desc: "Tạo kiểu thời trang, cắt tỉa gọn gàng theo chuẩn giống thú cưng. (Thời gian: ~60 phút)" },
     { icon: <Bath size={32} />, title: "Tắm Thảo Dược", price: "150,000đ", desc: "Tắm sạch sâu, khử mùi, kết hợp massage thư giãn. (Thời gian: ~45 phút)" },
     { icon: <HeartPulse size={32} />, title: "Khám Sức Khỏe Cơ Bản", price: "Miễn phí", desc: "Kiểm tra da, tai, mắt, răng miệng trước khi làm dịch vụ." },
-    { icon: <Sparkles size={32} />, title: "Gói Combo Toàn Diện", price: "350,000đ", desc: "Bao gồm tắm, sấy, cắt tỉa, vệ sinh tai và cắt móng. (Thời gian: ~120 phút)" },
+    { icon: <Sparkles size={32} />, title: "Gói Combo Toàn Diện", price: "350,000đ", desc: "Bao gồm tắm, sấy, cắt tỉa, vệ sinh tai và cắt móng. (Thời gian: ~120 phút)", isPremium: true },
   ];
 
   const processSteps = [
@@ -25,7 +25,7 @@ export default function Home({ navigate }) {
       { 
         id: 'B1', name: 'PetSpa Cầu Giấy (Cơ sở chính)', address: '123 Cầu Giấy, Q. Cầu Giấy, HN', rating: 4.9, reviewCount: 154,
         reviews: [
-          { name: "Chị Ngọc Mỹ", pet: "Poodle", rating: 5, comment: "Dịch vụ rất tốt, nhân viên cơ sở Cầu Giấy cực kỳ nhiệt tình, có ứng dụng theo dõi giờ làm nên không phải chờ đợi." },
+          { name: "Chị Ngọc Mỹ", pet: "Poodle", petImage: "https://images.unsplash.com/photo-1541364983171-a8ba01e95cfc?auto=format&fit=crop&w=150&q=80", rating: 5, comment: "Dịch vụ rất tốt, nhân viên cơ sở Cầu Giấy cực kỳ nhiệt tình, có ứng dụng theo dõi giờ làm nên không phải chờ đợi." },
           { name: "Anh Nam", pet: "Golden", rating: 5, comment: "Tiệm rộng rãi, sạch sẽ. Tắm xong bé thơm rất lâu. Sẽ giới thiệu bạn bè." }
         ]
       },
@@ -88,7 +88,7 @@ export default function Home({ navigate }) {
         borderRadius: '1rem', marginBottom: '4rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
       }}>
         <div style={{ flex: '1 1 400px' }}>
-          <h1 style={{ fontSize: '2.5rem', color: 'var(--primary-dark)', marginBottom: '1rem', lineHeight: '1.2' }}>
+          <h1 style={{ fontSize: '3.5rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '1.2rem', lineHeight: '1.15' }}>
             Thú cưng bẩn, lông rụng, móng dài?<br/> Đã có chúng tôi!
           </h1>
           <p style={{ fontSize: '1.125rem', color: 'var(--text-muted)', marginBottom: '2rem' }}>
@@ -105,30 +105,45 @@ export default function Home({ navigate }) {
             </a>
           </div>
         </div>
-        <div style={{ flex: '1 1 300px', textAlign: 'center' }}>
-          <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Chó đáng yêu đang tắm" style={{ width: '100%', maxWidth: '400px', borderRadius: '1rem', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }} />
+        <div style={{ flex: '1 1 300px', display: 'flex', gap: '1rem', justifyContent: 'center', position: 'relative' }}>
+          <div 
+            style={{ position: 'relative', flex: 1, maxWidth: '200px', transition: 'all 0.3s ease', cursor: 'pointer', zIndex: 1 }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.15)'; e.currentTarget.style.zIndex = 10; e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.2)'; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.zIndex = 1; e.currentTarget.style.boxShadow = 'none'; }}
+          >
+            <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(239, 68, 68, 0.7)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255, 255, 255, 0.3)', color: 'white', padding: '0.25rem 0.75rem', borderRadius: '9999px', fontSize: '0.8rem', fontWeight: 'bold', zIndex: 2 }}>Trước</span>
+            <img src="/img/poodle_before.png" alt="Chó chưa cắt lông" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '1rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }} />
+          </div>
+          <div 
+            style={{ position: 'relative', flex: 1, maxWidth: '200px', transform: 'translateY(1.5rem)', transition: 'all 0.3s ease', cursor: 'pointer', zIndex: 1 }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(1.5rem) scale(1.15)'; e.currentTarget.style.zIndex = 10; e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.2)'; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(1.5rem) scale(1)'; e.currentTarget.style.zIndex = 1; e.currentTarget.style.boxShadow = 'none'; }}
+          >
+            <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(16, 185, 129, 0.7)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255, 255, 255, 0.3)', color: 'white', padding: '0.25rem 0.75rem', borderRadius: '9999px', fontSize: '0.8rem', fontWeight: 'bold', zIndex: 2 }}>Sau</span>
+            <img src="/img/poodle_after.png" alt="Chó đã cắt tỉa mượt mà" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '1rem', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }} />
+          </div>
         </div>
       </section>
 
       {/* Trust & Commitments Section */}
-      <section style={{ marginBottom: '4rem' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>Cam Kết Chất Lượng 3 KHÔNG</h2>
+      <section style={{ marginBottom: '6rem', background: '#f8fafc', padding: '3rem 2rem', borderRadius: '1.5rem' }}>
+        <h2 style={{ textAlign: 'center', marginBottom: '3rem', fontSize: '2.2rem' }}>Cam Kết Chất Lượng 3 KHÔNG</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
-          <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: '#fdfbf7' }}>
+          <div style={{ background: '#fdfbf7', borderRadius: '24px', boxShadow: '0 10px 30px rgba(0, 0, 0, 0.04)', padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <HeartHandshake size={40} color="#10b981" style={{ flexShrink: 0 }} />
             <div>
               <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '1.1rem' }}>Không Bạo Lực</h3>
               <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-muted)' }}>Nhân viên được đào tạo chứng chỉ Grooming chuyên nghiệp, yêu thương động vật.</p>
             </div>
           </div>
-          <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: '#fdfbf7' }}>
+          <div style={{ background: '#fdfbf7', borderRadius: '24px', boxShadow: '0 10px 30px rgba(0, 0, 0, 0.04)', padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <ShieldCheck size={40} color="#10b981" style={{ flexShrink: 0 }} />
             <div>
               <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '1.1rem' }}>Không Phát Sinh Chi Phí</h3>
               <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-muted)' }}>Báo giá rõ ràng trên web và trước khi làm dịch vụ. Minh bạch tuyệt đối.</p>
             </div>
           </div>
-          <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: '#fdfbf7' }}>
+          <div style={{ background: '#fdfbf7', borderRadius: '24px', boxShadow: '0 10px 30px rgba(0, 0, 0, 0.04)', padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <Clock size={40} color="#10b981" style={{ flexShrink: 0 }} />
             <div>
               <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '1.1rem' }}>Không Phải Chờ Đợi</h3>
@@ -139,21 +154,49 @@ export default function Home({ navigate }) {
       </section>
 
       {/* Services Section */}
-      <section style={{ marginBottom: '4rem' }}>
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <h2>Dịch Vụ Của Chúng Tôi</h2>
-          <p style={{ color: 'var(--text-muted)' }}>Giá cả được niêm yết công khai cho các bé dưới 5kg.</p>
+      <section style={{ marginBottom: '6rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <h2 style={{ fontSize: '2.2rem' }}>Dịch Vụ Của Chúng Tôi</h2>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Giá cả được niêm yết công khai cho các bé dưới 5kg.</p>
+          <p style={{ color: 'var(--primary-dark)', fontSize: '0.95rem', margin: 0 }}>
+            <em>* Đối với các bé trên 5kg, vui lòng <a href="tel:19001234" style={{ color: 'var(--primary)', fontWeight: 'bold', textDecoration: 'none' }}>Liên hệ Hotline</a> để được tư vấn giá chi tiết.</em>
+          </p>
         </div>
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
           {services.map((srv, idx) => (
-            <div key={idx} className="card" style={{ textAlign: 'center', transition: 'transform 0.2s', cursor: 'pointer' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-              <div style={{ width: '64px', height: '64px', background: 'var(--primary-light)', color: 'var(--primary)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
+            <div 
+              key={idx} 
+              className="card" 
+              style={{ 
+                textAlign: 'center', 
+                display: 'flex',
+                flexDirection: 'column',
+                transition: 'all 0.3s ease', 
+                cursor: 'pointer', 
+                ...(srv.isPremium ? { transform: 'scale(1.05)', border: '2px solid #059669', backgroundColor: '#f0fdf4', position: 'relative', zIndex: 5, boxShadow: '0 15px 30px rgba(5, 150, 105, 0.15)' } : { zIndex: 1 }) 
+              }} 
+              onMouseEnter={(e) => { 
+                e.currentTarget.style.transform = srv.isPremium ? 'scale(1.08)' : 'translateY(-5px)'; 
+                if(!srv.isPremium) e.currentTarget.style.boxShadow = '0 10px 20px rgba(0,0,0,0.05)';
+              }} 
+              onMouseLeave={(e) => { 
+                e.currentTarget.style.transform = srv.isPremium ? 'scale(1.05)' : 'translateY(0)'; 
+                if(!srv.isPremium) e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.05)';
+              }}
+            >
+              {srv.isPremium && (
+                <span style={{ position: 'absolute', top: '-12px', right: '1rem', background: 'linear-gradient(to right, #eab308, #ca8a04)', color: 'white', padding: '0.2rem 0.8rem', borderRadius: '1rem', fontSize: '0.75rem', fontWeight: 'bold', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>✨ PHỔ BIẾN NHẤT</span>
+              )}
+              <div style={{ width: '64px', height: '64px', background: srv.isPremium ? 'white' : 'var(--primary-light)', color: srv.isPremium ? '#eab308' : 'var(--primary)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem', boxShadow: srv.isPremium ? '0 4px 6px rgba(0,0,0,0.05)' : 'none' }}>
                 {srv.icon}
               </div>
               <h3 style={{ margin: '0 0 0.5rem 0' }}>{srv.title}</h3>
-              <div style={{ color: 'var(--primary-dark)', fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '0.5rem' }}>{srv.price}</div>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>{srv.desc}</p>
+              <div style={{ color: srv.isPremium ? '#059669' : 'var(--primary-dark)', fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '0.5rem' }}>{srv.price}</div>
+              <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '1.5rem', flex: 1 }}>{srv.desc}</p>
+              <button className={srv.isPremium ? "" : "btn-outline"} style={{ width: '100%', padding: '0.6rem', fontSize: '0.9rem', fontWeight: 600, borderRadius: '0.5rem', transition: 'all 0.2s', ...(srv.isPremium ? { backgroundColor: '#059669', color: 'white', border: 'none', boxShadow: '0 4px 6px rgba(5,150,105,0.2)' } : {}) }} onClick={(e) => { e.stopPropagation(); navigate('booking'); }}>
+                Đặt lịch gói này
+              </button>
             </div>
           ))}
         </div>
@@ -195,7 +238,10 @@ export default function Home({ navigate }) {
               <h3 style={{ margin: '0 0 0.5rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <MapPin size={20} color="var(--primary)" /> {branch.name}
               </h3>
-              <p style={{ margin: '0 0 1rem 0', fontSize: '0.9rem', color: 'var(--text-muted)' }}>{branch.address}</p>
+              <p style={{ margin: '0 0 1rem 0', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                {branch.address} <br/>
+                <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branch.address)}`} target="_blank" rel="noreferrer" style={{ display: 'inline-block', marginTop: '0.5rem', fontSize: '0.85rem', color: 'var(--primary)', textDecoration: 'none', fontWeight: 'bold' }}>📍 Chỉ đường (Google Maps)</a>
+              </p>
               
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
@@ -246,7 +292,10 @@ export default function Home({ navigate }) {
                       {[...Array(rev.rating)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
                     </div>
                   </div>
-                  <p style={{ margin: 0, fontStyle: 'italic', fontSize: '0.95rem', color: 'var(--text-color)', lineHeight: '1.5' }}>"{rev.comment}"</p>
+                  <p style={{ margin: '0 0 0.75rem 0', fontStyle: 'italic', fontSize: '0.95rem', color: 'var(--text-color)', lineHeight: '1.5' }}>"{rev.comment}"</p>
+                  {rev.petImage && (
+                    <img src={rev.petImage} alt={`Bé ${rev.pet}`} style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '0.5rem', border: '1px solid var(--border-color)' }} />
+                  )}
                 </div>
               ))}
             </div>

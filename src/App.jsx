@@ -7,6 +7,7 @@ import Dashboard from './components/Dashboard';
 import BookingFlow from './components/BookingFlow';
 import AdminDashboard from './components/AdminDashboard';
 import ChatWidget from './components/ChatWidget';
+import Footer from './components/Footer';
 
 function App() {
   const [currentView, setCurrentView] = useState('home');
@@ -74,6 +75,8 @@ function App() {
       <main className="main-content">
         {renderView()}
       </main>
+      
+      <Footer />
       
       {/* Floating Support Chatbot */}
       <ChatWidget currentUser={currentUser} />

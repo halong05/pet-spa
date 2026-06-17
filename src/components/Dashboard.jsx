@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PetForm from './PetForm';
+import Profile from './Profile';
 import { Star, Clock, MapPin, CheckCircle, PlayCircle, Edit3 } from 'lucide-react';
 
 export default function Dashboard({ currentUser, navigate }) {
+  const [activeTab, setActiveTab] = useState('profile'); // 'profile', 'pets', 'bookings'
   const [pets, setPets] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [showAddPet, setShowAddPet] = useState(false);
@@ -159,10 +161,40 @@ export default function Dashboard({ currentUser, navigate }) {
         <button className="btn-primary" onClick={() => navigate('booking')}>+ Đặt lịch mới</button>
       </div>
 
+      {/* Tabs Navigation */}
+      <div style={{ display: 'flex', gap: '1rem', borderBottom: '2px solid var(--border-color)', marginBottom: '2rem', overflowX: 'auto', whiteSpace: 'nowrap', scrollbarWidth: 'none' }}>
+        <button 
+          onClick={() => setActiveTab('profile')} 
+          style={{ background: 'none', border: 'none', padding: '0.75rem 1.5rem', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', color: activeTab === 'profile' ? 'var(--primary-dark)' : 'var(--text-muted)', borderBottom: activeTab === 'profile' ? '3px solid var(--primary)' : '3px solid transparent', marginBottom: '-2px', transition: 'all 0.3s' }}
+        >
+          Thông tin cá nhân
+        </button>
+        <button 
+          onClick={() => setActiveTab('pets')} 
+          style={{ background: 'none', border: 'none', padding: '0.75rem 1.5rem', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', color: activeTab === 'pets' ? 'var(--primary-dark)' : 'var(--text-muted)', borderBottom: activeTab === 'pets' ? '3px solid var(--primary)' : '3px solid transparent', marginBottom: '-2px', transition: 'all 0.3s' }}
+        >
+          Hồ sơ Thú cưng
+        </button>
+        <button 
+          onClick={() => setActiveTab('bookings')} 
+          style={{ background: 'none', border: 'none', padding: '0.75rem 1.5rem', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', color: activeTab === 'bookings' ? 'var(--primary-dark)' : 'var(--text-muted)', borderBottom: activeTab === 'bookings' ? '3px solid var(--primary)' : '3px solid transparent', marginBottom: '-2px', transition: 'all 0.3s' }}
+        >
+          Quản lý Lịch Spa
+        </button>
+      </div>
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
         
-        {/* Pets Section */}
-        <div>
+        {/* Profile Tab */}
+        {activeTab === 'profile' && (
+          <div className="fade-in">
+            <Profile currentUser={currentUser} />
+          </div>
+        )}
+
+        {/* Pets Tab */}
+        {activeTab === 'pets' && (
+        <div className="fade-in">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
             <h2>Hồ sơ Thú cưng của tôi</h2>
             {!showAddPet && !editingPet && (
@@ -214,9 +246,11 @@ export default function Dashboard({ currentUser, navigate }) {
             </div>
           )}
         </div>
+        )}
 
-        {/* Bookings Section */}
-        <div>
+        {/* Bookings Tab */}
+        {activeTab === 'bookings' && (
+        <div className="fade-in">
           <h2>Quản lý lịch Spa</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {bookings.length === 0 ? (
@@ -288,6 +322,7 @@ export default function Dashboard({ currentUser, navigate }) {
             )}
           </div>
         </div>
+        )}
 
       </div>
 
